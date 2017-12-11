@@ -1,0 +1,15 @@
+<!--<span>{{directory.name}}</span>-->
+<td-expansion-panel *ngIf="directory?.children"
+                    [label]="directory.name"
+                    layout="column"
+                    layout-padding>
+  <div *ngFor="let child of directory?.children" [style.padding-left.px]="8">
+    <app-directory *ngIf="! child.isFile" [directory]="child"></app-directory>
+
+    <app-file *ngIf="child.isFile"
+              [file]="child"
+              (clicked)="fileClicked.emit($event)"></app-file>
+  </div>
+</td-expansion-panel>
+
+<md-divider></md-divider>

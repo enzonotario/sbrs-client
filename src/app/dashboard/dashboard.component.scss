@@ -1,0 +1,38 @@
+@import "../../theme";
+
+:host /deep/ {
+  .td-json-formatter-wrapper {
+    .td-key {
+      &.td-key-node {
+        &:focus,
+        &:hover {
+          background-color: mat-color($mat-grey, 300);
+        }
+      }
+    }
+    .key {
+      color: mat-color($mat-orange, 700);
+    }
+    .value {
+      .string {
+        color: mat-color($mat-grey, 900);
+      }
+      .number {
+        color: mat-color($mat-green, 600);
+      }
+      .boolean {
+        color: mat-color($mat-blue, 800);
+      }
+      .null,
+      .undefined {
+        color: mat-color($foreground, disabled-text);
+      }
+      .function {
+        color: mat-color($primary);
+      }
+      .date {
+        color: mat-color($foreground, text);
+      }
+    }
+  }
+}

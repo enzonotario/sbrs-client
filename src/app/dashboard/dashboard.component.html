@@ -1,0 +1,49 @@
+<div layout="column" layout-fill>
+  <div layout="row" class="bgc-red-900 tc-white" layout-padding>
+    <span class="md-title" layout-margin>Sistema de Búsqueda de Respuestas sobre Salta</span>
+
+    <span flex></span>
+
+    <button md-button
+            md-icon-button
+            routerLink="/"><md-icon>search</md-icon></button>
+  </div>
+
+  <div layout="row" flex>
+    <div layout="column" flex="33" layout-padding class="bgc-blue-grey-50">
+      <div layout="row" layout-align="start center">
+        <md-input-container flex>
+          <label>Texto</label>
+          <input mdInput
+                 type="text"
+                 [(ngModel)]="_text">
+        </md-input-container>
+
+        <button md-button
+                (click)="extractFromText(_text)">EXTRAER</button>
+      </div>
+
+      <td-expansion-panel label="corpus" style="overflow-y: auto;">
+        <div *ngFor="let child of _fileTree?.data?.children">
+          <app-directory *ngIf="! child.isFile"
+                         [directory]="child"
+                         (fileClicked)="extractFromFile($event)"></app-directory>
+        </div>
+      </td-expansion-panel>
+    </div>
+
+    <div layout="column" layout-padding flex class="bgc-grey-200" style="overflow-y: auto;">
+      <md-progress-spinner *ngIf="! _json?.data"
+                           mode="indeterminate"
+                           color="accent"
+                           [style.height.px]="96"
+                           [style.width.px]="96"></md-progress-spinner>
+
+      <div *ngIf="_json?.data" layout="column">
+        <span class="md-title">Resultado</span>
+
+        <td-json-formatter [data]="_json" [levelsOpen]="_levelsOpen"></td-json-formatter>
+      </div>
+    </div>
+  </div>
+</div>

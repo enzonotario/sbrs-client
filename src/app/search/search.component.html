@@ -1,0 +1,91 @@
+<div layout="column" layout-fill>
+  <div layout="column"
+       layout-gt-xs="row"
+       layout-padding
+       layout-align="start center"
+       class="md-whiteframe-2dp bgc-red-900 tc-white">
+    <span class="md-title" flex="25">Sistema Búsqueda de Respuestas sobre Salta</span>
+
+    <div flex="50"
+         layout="column"
+         layout-gt-xs="row"
+         layout-align="start center"
+         class="bgc-red-800"
+         style="padding: 8px; margin: 8px 0;">
+      <md-input-container color="accent" flex [style.padding.px]="8">
+        <input mdInput
+               type="text"
+               placeholder="Buscar..."
+               [(ngModel)]="question"
+               (keydown.enter)="search()">
+      </md-input-container>
+
+      <button md-button
+              md-icon-button
+              color="accent"
+              type="button"
+              (click)="search()"><md-icon>search</md-icon></button>
+    </div>
+
+    <div layout="row" layout-align="end center" flex="25">
+      <button md-button
+              md-icon-button
+              type="button"
+              routerLink="/dashboard"><md-icon>dashboard</md-icon></button>
+    </div>
+  </div>
+
+  <div flex layout="row" class="bgc-grey-300">
+    <!--<div layout="column" flex="25" class="bgc-red-800 tc-white" >-->
+      <!--<span class="md-title" layout-padding>Preguntas de prueba</span>-->
+
+      <!--<md-list style="overflow-y: auto;">-->
+        <!--<md-list-item *ngFor="let testQuestion of _testQuestions?.data"-->
+                      <!--(click)="search(testQuestion.question)"-->
+                      <!--[ngClass]="{'bgc-red-600': testQuestion.question == question}">-->
+          <!--<p class="tc-white">{{testQuestion.question}}</p>-->
+        <!--</md-list-item>-->
+      <!--</md-list>-->
+    <!--</div>-->
+
+    <div layout="column" layout-align="center center" flex style="overflow-y: auto;">
+      <md-progress-spinner *ngIf="loading"
+                           mode="indeterminate"
+                           color="accent"
+                           [style.height.px]="96"
+                           [style.width.px]="96"></md-progress-spinner>
+
+      <div *ngIf="! loading && results?.data" layout="column" layout-fill>
+        <div *ngIf="! results?.data?.count" layout="column" layout-align="center center">
+          <span class="md-headline" layout-margin>:(</span>
+          <span class="md-headline">No se encontró ningún resultado</span>
+        </div>
+
+        <div *ngIf="results?.data?.count" layout="column">
+          <div layout="row" layout-align="end center" layout-padding layout-margin>
+            <span style="margin: 8px 0;">Se encontraron {{results.data.count}} resultados</span>
+          </div>
+
+          <div layout="column">
+            <md-card *ngFor="let result of results?.data?.docs; let idx = index" class="bgc-white-4 tc-black">
+              <md-card-content>
+                <div layout="column">
+                  <!--{{idx+1}}°-->
+                  <span *ngIf="result.page" class="md-title" style="margin: 4px 0;">{{result.page}}</span>
+
+                  <span *ngIf="result.title" class="subhead" style="margin: 4px 0;">{{result.title}}</span>
+
+                  <span *ngIf="result.subtitle" class="md-subhead" style="margin: 4px 0;">{{result.subtitle}}</span>
+
+                  <span *ngIf="result.url" class="tc-blue-500" style="margin: 4px 0;">{{result.url}}</span>
+
+                  <p [innerHTML]="result.sentenceHighlighted"></p>
+                </div>
+              </md-card-content>
+            </md-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
